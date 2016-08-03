@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView img4= (ImageView)findViewById(R.id.imageView4);
         ImageView img5= (ImageView)findViewById(R.id.imageView5);
         ImageView img6= (ImageView)findViewById(R.id.imageView6);
+
+        images = new ImageView[]{img1,img2,img3,img4,img5,img6};
+
         Picasso.with(this).load("http://4.bp.blogspot.com/-OI4R07zYTuI/T3hnA7V5g0I/AAAAAAAAAPU/i-G44RixBfk/s1600/wallpaper+barcelona-1.png").into(img1);
         Picasso.with(this).load("http://4.bp.blogspot.com/-OI4R07zYTuI/T3hnA7V5g0I/AAAAAAAAAPU/i-G44RixBfk/s1600/wallpaper+barcelona-1.png").into(img3);
         Picasso.with(this).load("http://4.bp.blogspot.com/-OI4R07zYTuI/T3hnA7V5g0I/AAAAAAAAAPU/i-G44RixBfk/s1600/wallpaper+barcelona-1.png").into(img2);
@@ -47,8 +50,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Movie[] movies) {
             super.onPostExecute(movies);
-                for(Movie m : movies)
-                    Log.v("onPost", m.toString());
+                for(int i =0 ;i<movies.length;i++){
+                    String fullPath = getMoviePosterPath(movies[i]);
+                    Picasso.with(getApplicationContext()).load(fullPath).into(images[i]);
+                }
+        }
+
+        private String getMoviePosterPath(Movie movie){
+            String BASE_PATH="http://image.tmdb.org/t/p/w185/";
+            return BASE_PATH + movie.getPosterPath();
+
         }
 
         @Override
